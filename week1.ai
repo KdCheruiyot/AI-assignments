@@ -1,0 +1,70 @@
+# CryptoBuddy Chatbot 
+
+
+# 1. Define the chatbot's personality
+BOT_NAME = "CryptoBuddy"
+
+def greet_user():
+    print(f"{BOT_NAME}: Hey there! I’m {BOT_NAME}, your friendly AI crypto sidekick!")
+    print("Ask me stuff like:")
+    print("- Which crypto is trending up?")
+    print("- What’s the most sustainable coin?")
+    print("- Which coin should I invest in for long-term growth?")
+    print("Type 'exit' to quit anytime.\n")
+
+# 2. Predefined crypto data
+crypto_db = {  
+    "Bitcoin": {  
+        "price_trend": "rising",  
+        "market_cap": "high",  
+        "energy_use": "high",  
+        "sustainability_score": 3  
+    },  
+    "Ethereum": {  
+        "price_trend": "stable",  
+        "market_cap": "high",  
+        "energy_use": "medium",  
+        "sustainability_score": 6  
+    },  
+    "Cardano": {  
+        "price_trend": "rising",  
+        "market_cap": "medium",  
+        "energy_use": "low",  
+        "sustainability_score": 8  
+    }  
+}
+
+# 3. Analyze user queries with rule-based logic
+def analyze_query(user_query):
+    user_query = user_query.lower()
+
+    if "sustainable" in user_query:
+        best = max(crypto_db, key=lambda x: crypto_db[x]["sustainability_score"])
+        return f"{BOT_NAME}: {best} 🌱 is the most sustainable! Low energy use and high green score!"
+
+    elif "trending" in user_query or "rising" in user_query:
+        trending = [coin for coin, data in crypto_db.items() if data["price_trend"] == "rising"]
+        return f"{BOT_NAME}: These coins are trending up 📈: {', '.join(trending)}."
+
+    elif "long-term" in user_query or "growth" in user_query or "invest" in user_query:
+        for coin, data in crypto_db.items():
+            if data["price_trend"] == "rising" and data["market_cap"] == "high":
+                return f"{BOT_NAME}: {coin} looks profitable for long-term growth 💰!"
+        return f"{BOT_NAME}: Consider checking coins with rising trends and high market caps."
+
+    else:
+        return f"{BOT_NAME}: Sorry, I didn’t get that 😅. Try asking about trending or sustainable coins."
+
+# 4. Run the chatbot
+def run_chatbot():
+    greet_user()
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == "exit":
+            print(f"{BOT_NAME}: Goodbye! Remember: crypto is risky—always DYOR (Do Your Own Research)! 👋")
+            break
+        response = analyze_query(user_input)
+        print(response)
+
+# 5. Start the chatbot
+run_chatbot()
